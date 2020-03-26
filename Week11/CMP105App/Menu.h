@@ -8,12 +8,11 @@
 #include <iostream>
 #include "Screen.h"
 
-
-class Level : public Screen
+class Menu : public Screen
 {
 public:
-	Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud);
-	~Level();
+	Menu(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud);
+	~Menu();
 
 	void handleInput(float dt) override;
 	void update(float dt) override;
@@ -24,3 +23,4 @@ private:
 	void beginDraw();
 	void endDraw();
 };
+

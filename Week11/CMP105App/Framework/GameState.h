@@ -12,6 +12,7 @@ class GameState
 public:
 	// Set the current state
 	void setCurrentState(State s);
+
 	// Returns the current state.
 	State getCurrentState();
 
