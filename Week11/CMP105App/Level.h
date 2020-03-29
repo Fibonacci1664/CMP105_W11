@@ -7,6 +7,8 @@
 #include <string>
 #include <iostream>
 #include "Screen.h"
+#include "Player.h"
+#include "TileMapManager.h"
 
 
 class Level : public Screen
@@ -19,8 +21,24 @@ public:
 	void update(float dt) override;
 	void render() override;
 
+	void initPlayer();
+	void initTextures();
+	void checkTileCollisions();
+	void initTextBox();
+
 private:
 	// Default functions for rendering to the screen.
 	void beginDraw();
 	void endDraw();
+
+
+	TileMapManager tmm;
+	sf::Texture player_texture;
+	Player player;
+	sf::RectangleShape colBox;
+	sf::RectangleShape OriginBox;
+	sf::RectangleShape playerPosBox;
+	sf::RectangleShape textBox;
+	sf::Text text;
+	sf::Font font;
 };

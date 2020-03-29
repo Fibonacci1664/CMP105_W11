@@ -19,8 +19,12 @@ public:
 	void render() override;
 
 private:
+	sf::RectangleShape m_menuBg;
+	sf::Texture m_menuBgTexture;
+
+	void initMenuBackground();
+
 	// Default functions for rendering to the screen.
 	void beginDraw();
 	void endDraw();
 };
-

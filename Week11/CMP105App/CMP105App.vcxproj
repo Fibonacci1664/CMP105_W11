@@ -170,7 +170,10 @@
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Pause.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Screen.cpp" />
+    <ClCompile Include="TileMapManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="DO_NOT_EDIT.txt" />
@@ -189,7 +192,10 @@
     <ClInclude Include="Framework\Vector.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Pause.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="TileMapManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -16,6 +16,9 @@ private:
 	};
 
 public:
+	Input();
+	~Input();
+
 	// Functions for setting key as pressed, released and checking current state.
 	void setKeyDown(int key);
 	void setKeyUp(int key);
