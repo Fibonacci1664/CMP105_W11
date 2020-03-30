@@ -32,6 +32,7 @@ Player::Player()
 	setTextureRect(idle.getCurrentFrame());
 	idle.setPlaying(true);
 	idle.setLooping(true);
+	attackDelay = 0;
 
 	gravityScalar = 100;
 	gravitationalAccel = sf::Vector2f(0, 9.8f) * gravityScalar;
@@ -63,6 +64,7 @@ void Player::update(float dt)
 
 void Player::handleInput(float dt)
 {
+	attackDelay += dt;
 	setAllAnimsFalse();
 
 	// If were WALKING RIGHT.
@@ -129,11 +131,12 @@ void Player::handleInput(float dt)
 	// If were ATTACKING.
 	if (input->isMouseLDown())
 	{
+		std::cout << "ATTACKING!! #####################################################################################\n";
+
 		checkAttacking(dt);
 	}
 	else
 	{
-		input->setMouseLDown(false);
 		isAttacking = false;
 		attack.setPlaying(false);
 	}
@@ -362,8 +365,6 @@ void Player::checkJumping(float dt)
 
 void Player::checkAttacking(float dt)
 {
-	input->setMouseLDown(false);
-
 	if (movingLeft)
 	{
 		attack.setFlipped(true);
@@ -373,12 +374,16 @@ void Player::checkAttacking(float dt)
 		attack.setFlipped(false);
 	}
 
-	audioMan.playSoundbyName("up");
-
 	isAttacking = true;
 	attack.setPlaying(true);
 	attack.animate(dt);
 	setTextureRect(attack.getCurrentFrame());
+
+	if (attackDelay > 1.0f)
+	{
+		audioMan.playSoundbyName("up");
+		attackDelay = 0;
+	}
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

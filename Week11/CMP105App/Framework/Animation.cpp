@@ -29,7 +29,6 @@ sf::IntRect Animation::getCurrentFrame()
 	frame = frames[currentFrame];
 	if (flipped)
 	{
-
 		frame = sf::IntRect(frame.left + frame.width, frame.top, -frame.width, frame.height);
 	}
 	return frame;
