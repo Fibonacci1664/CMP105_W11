@@ -20,13 +20,14 @@ public:
 	void handleInput(float dt) override;
 	void update(float dt) override;
 	void render() override;
-
+	
+private:
+	void checkTileCollisions();
 	void initPlayer();
 	void initTextures();
-	void checkTileCollisions();
 	void initTextBox();
+	void initAudio();
 
-private:
 	// Default functions for rendering to the screen.
 	void beginDraw();
 	void endDraw();

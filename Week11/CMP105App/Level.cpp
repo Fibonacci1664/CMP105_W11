@@ -2,6 +2,7 @@
 
 Level::Level(sf::RenderWindow* hwnd, Input* in, GameState* gs, AudioManager* aud) : Screen(hwnd, in, gs, aud)
 {
+	initAudio();
 	initTextures();
 	initTextBox();
 
@@ -70,6 +71,11 @@ void Level::handleInput(float dt)
 // Update game objects
 void Level::update(float dt)
 {
+	if (audio->getMusic()->getStatus() == sf::SoundSource::Stopped)
+	{
+		audio->playMusicbyName("cantina");
+	}
+
 	player.update(dt);
 	checkTileCollisions();
 
@@ -136,4 +142,9 @@ void Level::initPlayer()
 void Level::checkTileCollisions()
 {
 	tmm.checkTileCollision(&player);
+}
+
+void Level::initAudio()
+{
+	audio->addMusic("sfx/Cantina.ogg", "cantina");
 }

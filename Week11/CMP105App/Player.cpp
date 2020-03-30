@@ -19,6 +19,8 @@
 // CONSTRUCTORS & DESTRUCTOR.
 Player::Player()
 {
+	initAudio();
+
 	movingLeft = false;
 	movingRight = true;						// Even thought the player hasnt moved any direction when they first spawn this needs to be true for the move logic to work.
 	isJumping = false;
@@ -64,7 +66,7 @@ void Player::handleInput(float dt)
 	setAllAnimsFalse();
 
 	// If were WALKING RIGHT.
-	if (input->isKeyDown(sf::Keyboard::D))
+	if (input->isKeyDown(sf::Keyboard::D) && !input->isKeyDown(sf::Keyboard::A))
 	{
 		checkMovingRight(dt);
 	}
@@ -91,15 +93,9 @@ void Player::handleInput(float dt)
 	}
 
 	// If were WALKING LEFT.
-	if (input->isKeyDown(sf::Keyboard::A))
+	if (input->isKeyDown(sf::Keyboard::A) && !input->isKeyDown(sf::Keyboard::D))
 	{
 		checkMovingLeft(dt);
-	}
-
-	// If were RUNNING.
-	if (input->isMouseRDown())
-	{
-		checkRunning(dt);
 	}
 
 	// If were JUMPING
@@ -122,6 +118,12 @@ void Player::handleInput(float dt)
 		jump.setPlaying(true);
 		jump.animate(dt);
 		setTextureRect(jump.getCurrentFrame());
+	}
+
+	// If were RUNNING.
+	if (input->isMouseRDown())
+	{
+		checkRunning(dt);
 	}
 
 	// If were ATTACKING.
@@ -296,7 +298,7 @@ void Player::checkRunning(float dt)
 {
 	if (!isAttacking)
 	{
-		if (input->isKeyDown(sf::Keyboard::D))
+		if (input->isKeyDown(sf::Keyboard::D) && !input->isKeyDown(sf::Keyboard::A))
 		{
 			movingRight = true;
 			movingLeft = false;
@@ -304,10 +306,9 @@ void Player::checkRunning(float dt)
 			run.setPlaying(true);
 			run.animate(dt);
 			setTextureRect(run.getCurrentFrame());
-
-			setPosition(sf::Vector2f(getPosition().x + (getVelocity().x * 1.3 * dt), getPosition().y));
 		}
-		else if (input->isKeyDown(sf::Keyboard::A))
+
+		if (input->isKeyDown(sf::Keyboard::A) && !input->isKeyDown(sf::Keyboard::D))
 		{
 			movingRight = false;
 			movingLeft = true;
@@ -315,14 +316,32 @@ void Player::checkRunning(float dt)
 			run.setFlipped(true);
 			run.animate(dt);
 			setTextureRect(run.getCurrentFrame());
-
-			setPosition(sf::Vector2f(getPosition().x + (getVelocity().x * 1.3 * dt), getPosition().y));
 		}
+
+		if (!onGround && isJumping)
+		{
+			if (movingLeft)
+			{
+				jump.setFlipped(true);
+			}
+			else
+			{
+				jump.setFlipped(false);
+			}
+
+			jump.setPlaying(true);
+			jump.animate(dt);
+			setTextureRect(jump.getCurrentFrame());
+		}
+
+		setPosition(sf::Vector2f(getPosition().x + (getVelocity().x * 1.3 * dt), getPosition().y));
 	}
 }
 
 void Player::checkJumping(float dt)
 {
+	input->setKeyUp(sf::Keyboard::Space);
+
 	if (movingLeft)
 	{
 		jump.setFlipped(true);
@@ -331,6 +350,8 @@ void Player::checkJumping(float dt)
 	{
 		jump.setFlipped(false);
 	}
+
+	audioMan.playSoundbyName("jump");
 
 	isJumping = true;
 	onGround = false;
@@ -341,6 +362,8 @@ void Player::checkJumping(float dt)
 
 void Player::checkAttacking(float dt)
 {
+	input->setMouseLDown(false);
+
 	if (movingLeft)
 	{
 		attack.setFlipped(true);
@@ -349,6 +372,8 @@ void Player::checkAttacking(float dt)
 	{
 		attack.setFlipped(false);
 	}
+
+	audioMan.playSoundbyName("up");
 
 	isAttacking = true;
 	attack.setPlaying(true);
@@ -446,6 +471,12 @@ void Player::updateCollisionBox()
 	{
 		setCollisionBox(getSize().x / 5, 18, 30, 50);
 	}
+}
+
+void Player::initAudio()
+{
+	audioMan.addSound("sfx/smb_jump-super.wav", "jump");
+	audioMan.addSound("sfx/smb_1-up.ogg", "up");
 }
 
 bool Player::getMovingRight()

@@ -3,6 +3,7 @@
 #include "Framework/GameObject.h"
 #include "Framework/Animation.h"
 #include<iostream>
+#include "Framework/AudioManager.h"
 
 class Player : public GameObject
 {
@@ -43,6 +44,7 @@ private:
 	sf::Vector2f stepVelocity;
 	float xDiffPlayerColBox;
 	float YDiffPlayerColBox;
+	AudioManager audioMan;
 
 
 	bool movingLeft;
@@ -63,6 +65,7 @@ private:
 	//void checkGround();
 	void updateCollisionBox();
 	void checkTileCollisions(GameObject* col);
+	void initAudio();
 
 };
 
